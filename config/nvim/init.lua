@@ -11,7 +11,7 @@ require "user.cmp"
 require "user.toggleterm"
 require "user.autopairs"
 require "user.vim-go"
-
+require "goto-preview"
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -84,7 +84,7 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
 
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },

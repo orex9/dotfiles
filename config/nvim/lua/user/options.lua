@@ -21,7 +21,8 @@ local options = {
   numberwidth = 4,
   wrap = false,
   scrolloff = 8,
-  sidescrolloff = 8
+  sidescrolloff = 8,
+  relativenumber = true,
 
 }
 

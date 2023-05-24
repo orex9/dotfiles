@@ -28,6 +28,7 @@ keymap("n", "<C-Righ>", ":vertical resize +2<CR>", opts)
 -- buffer navigation
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
+keymap("n", "td", ":bdelete<CR>", opts)
 
 -- move text up and down
 keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
@@ -40,6 +41,33 @@ keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", {expr = true, silent = true})
 keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", {expr = true, silent = true})
 
 
+keymap("n", "QQ", ":q!<CR>", opts)
+keymap("n", "WW", ":w!<CR>", opts)
+keymap("n", "E", "$", opts)
+keymap("n", "B", "^", opts)
+
+
+--trouble
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+  {silent = true, noremap = true}
+)
+
+--telesope
 vim.keymap.set("n", '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 
