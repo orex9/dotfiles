@@ -203,6 +203,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- add filetype extentions
+vim.filetype.add {
+  extension = {
+    templ = 'templ',
+  },
+}
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -617,6 +624,8 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'goimports', 'gofmt' },
+        templ = { 'templ', 'prettierd', 'prettier' },
+        html = { 'prettierd', 'prettier' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
