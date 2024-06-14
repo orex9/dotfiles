@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 
 config.enable_tab_bar = true
 config.font = wezterm.font("FiraCode Nerd Font")
-config.font_size = 13.0
+config.font_size = 14.0
 config.color_scheme = "Argonaut (Gogh)"
 config.window_padding = {
 	left = 8,
