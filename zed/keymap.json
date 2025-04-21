@@ -25,6 +25,13 @@
     }
   },
   {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "space t o": "outline::Toggle",
+      "space t c": "editor::ToggleCodeActions"
+    }
+  },
+  {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       "j k": "vim::NormalBefore"
@@ -42,7 +49,16 @@
   {
     "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
     "bindings": {
-      "space e": "editor::Hover"
+      "space e": "editor::Hover",
+      "space f": "editor::Format"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // Key-bindings for empty pane
+      "space p f": "file_finder::Toggle",
+      "space f p": "projects::OpenRecent"
     }
   }
 ]
