@@ -131,7 +131,7 @@ require "nvim-treesitter.configs".setup({
 require "fzf-lua".setup()
 -- blink.cmp
 require "blink.cmp".setup({
-	fuzzy     = {
+	fuzzy      = {
 		sorts = {
 			'exact',
 			'score',
@@ -139,14 +139,14 @@ require "blink.cmp".setup({
 			'label'
 		},
 	},
-	cmdline   = { enabled = false },
-	signature = { enabled = true },
-	sources   = {
+	cmdline    = { enabled = false },
+	signature  = { enabled = true },
+	sources    = {
 		default = { "lsp", "path", "snippets", "buffer" },
-		completion = {
-			keyword = { range = 'full' },
-			documentation = { auto_show = true, auto_show_delay_ms = 500 },
-		},
+	},
+	completion = {
+		keyword = { range = 'full' },
+		documentation = { auto_show = true, auto_show_delay_ms = 500 },
 	},
 })
 
