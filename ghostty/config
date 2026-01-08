@@ -53,14 +53,15 @@
 shell-integration = zsh
 clipboard-read = allow
 clipboard-write = allow
+copy-on-select = true
 background-opacity = 0.90
 background-blur = 15
 theme = Alien Blood
 bold-is-bright = true
 background = #0f1610
-foreground = #637d75
+foreground = #FFFFFF
 selection-background = #1d4125
-selection-foreground = #73fa91
+selection-foreground = #f3fa91
 cursor-color = #73fa91
 cursor-text = #0f1610
 palette = 0=#112616
