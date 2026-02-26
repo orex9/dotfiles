@@ -54,7 +54,13 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-Then enable both plugins in `~/.zshrc`:
+### GohuFont (for Ghostty)
+
+Download and install the [GohuFont Nerd Font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Gohu.zip):
+
 ```sh
-plugins=(... zsh-autosuggestions zsh-syntax-highlighting)
+curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Gohu.zip -o Gohu.zip
+unzip Gohu.zip -d GohuFont
+cp GohuFont/*.ttf ~/Library/Fonts/
+rm -rf Gohu.zip GohuFont
 ```
