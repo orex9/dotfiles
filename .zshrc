@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,6 +104,10 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cat='/opt/homebrew/bin/bat'
 alias ghb='gh browse'
+alias k='kubectl'
+alias kctx='kubectx'
+alias kns='kubens'
+alias yolo='claude --dangerously-skip-permissions'
 export GOPATH=/Users/$USER/go
 export PATH=$GOPATH/bin:$HOME/.local/bin:$HOME/.local/share/bob/nvim-bin:$PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
