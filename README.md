@@ -7,32 +7,19 @@ Requires [Homebrew](https://brew.sh). Install it first if you don't have it:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-### ripgrep
-```sh
-brew install ripgrep
-```
+### Brew bundle
 
-### fzf
-```sh
-brew install fzf
-```
+Install all Homebrew dependencies from the Brewfile:
 
-### fd
 ```sh
-brew install fd
-```
-
-### lazygit
-```sh
-brew install lazygit
+brew bundle
 ```
 
 ### bob + neovim nightly
 
-[bob](https://github.com/MordechaiHadad/bob) is a Neovim version manager.
+[bob](https://github.com/MordechaiHadad/bob) is a Neovim version manager. It is installed via `brew bundle` above.
 
 ```sh
-brew install bob-nvim
 bob install nightly
 bob use nightly
 ```

@@ -102,7 +102,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias cat='/opt/homebrew/bin/bat'
+alias cat='/opt/homebrew/bin/bat -p'
 alias ghb='gh browse'
 alias k='kubectl'
 alias kctx='kubectx'
