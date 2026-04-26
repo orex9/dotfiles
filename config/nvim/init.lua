@@ -39,7 +39,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<leader>sf', ':lua FzfLua.files({ cwd = vim.fn.expand("%:h") })<CR>')
-vim.keymap.set('n', '<leader>sb', ':lua FzfLua.buffers()<CR>')
+vim.keymap.set('n', '<leader><leader>', ':lua FzfLua.buffers()<CR>')
 vim.keymap.set('n', '<leader>sg', ':lua FzfLua.live_grep()<CR>')
 vim.keymap.set('n', '<leader>/', ':lua FzfLua.lgrep_curbuf()<CR>')
 vim.keymap.set('n', 'gd', ':lua FzfLua.lsp_definitions()<CR>')
@@ -68,7 +68,9 @@ vim.pack.add({
 })
 
 -- plugins setup and configurations
-require "gitsigns".setup()
+require "gitsigns".setup({
+	current_line_blame = true
+})
 require "mini.pairs".setup()
 require "mason".setup()
 require "mini.cursorword".setup()
@@ -117,6 +119,15 @@ require "blink.cmp".setup({
 		documentation = { auto_show = true, auto_show_delay_ms = 500 },
 	},
 })
+
+vim.lsp.config('gopls', {
+	settings = {
+		["gopls"] = {
+			gofumpt = true
+		}
+	}
+})
+
 vim.lsp.config('*', {
 	capabilities = require('blink.cmp').get_lsp_capabilities(),
 })
