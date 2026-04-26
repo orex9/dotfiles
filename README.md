@@ -1,6 +1,24 @@
 # dotfiles
 
-## Ensure installed
+## Quick install on a new Mac
+
+```sh
+git clone https://github.com/oreliyahu/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install.sh
+```
+
+The `install.sh` script will:
+- Install Homebrew (if missing)
+- Run `brew bundle`
+- Install Oh My Zsh and zsh plugins
+- Install Neovim nightly via `bob`
+- Symlink all dotfiles (with backups of any existing files)
+- Install GohuFont
+
+## Manual steps
+
+If you prefer to do things manually, the steps are below.
 
 Requires [Homebrew](https://brew.sh). Install it first if you don't have it:
 ```sh
