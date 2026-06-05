@@ -167,14 +167,32 @@ require("fidget").setup({ notification = { override_vim_notify = true } })
 require("nvim-ts-autotag").setup()
 
 require("nvim-treesitter").install({
-	"go", "javascript", "json", "lua", "python",
-	"typescript", "bash", "html", "css", "yaml", "markdown",
+	"go",
+	"javascript",
+	"json",
+	"lua",
+	"python",
+	"typescript",
+	"bash",
+	"html",
+	"css",
+	"yaml",
+	"markdown",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
-		"go", "javascript", "json", "lua", "python",
-		"typescript", "bash", "html", "css", "yaml", "markdown",
+		"go",
+		"javascript",
+		"json",
+		"lua",
+		"python",
+		"typescript",
+		"bash",
+		"html",
+		"css",
+		"yaml",
+		"markdown",
 	},
 	callback = function()
 		vim.treesitter.start()
@@ -193,22 +211,30 @@ end
 
 vim.keymap.set("n", "<CR>", function()
 	local node = vim.treesitter.get_node()
-	if not node then return end
+	if not node then
+		return
+	end
 	ts_selection_stack = { node }
 	select_node(node)
 end, { silent = true })
 
 vim.keymap.set("v", "<CR>", function()
 	local node = ts_selection_stack[#ts_selection_stack]
-	if not node then return end
+	if not node then
+		return
+	end
 	local parent = node:parent()
-	if not parent then return end
+	if not parent then
+		return
+	end
 	table.insert(ts_selection_stack, parent)
 	select_node(parent)
 end, { silent = true })
 
 vim.keymap.set("v", "<BS>", function()
-	if #ts_selection_stack < 2 then return end
+	if #ts_selection_stack < 2 then
+		return
+	end
 	table.remove(ts_selection_stack)
 	select_node(ts_selection_stack[#ts_selection_stack])
 end, { silent = true })
@@ -221,18 +247,50 @@ require("nvim-treesitter-textobjects").setup({
 local ts_select = require("nvim-treesitter-textobjects.select")
 local ts_move = require("nvim-treesitter-textobjects.move")
 for _, map in ipairs({
-	{ { "x", "o" }, "af", function() ts_select.select_textobject("@function.outer") end },
-	{ { "x", "o" }, "if", function() ts_select.select_textobject("@function.inner") end },
-	{ { "x", "o" }, "ac", function() ts_select.select_textobject("@class.outer") end },
-	{ { "x", "o" }, "ic", function() ts_select.select_textobject("@class.inner") end },
+	{
+		{ "x", "o" },
+		"af",
+		function()
+			ts_select.select_textobject("@function.outer")
+		end,
+	},
+	{
+		{ "x", "o" },
+		"if",
+		function()
+			ts_select.select_textobject("@function.inner")
+		end,
+	},
+	{
+		{ "x", "o" },
+		"ac",
+		function()
+			ts_select.select_textobject("@class.outer")
+		end,
+	},
+	{
+		{ "x", "o" },
+		"ic",
+		function()
+			ts_select.select_textobject("@class.inner")
+		end,
+	},
 }) do
 	vim.keymap.set(map[1], map[2], map[3], { silent = true })
 end
 
-vim.keymap.set("n", "]f", function() ts_move.goto_next_start("@function.outer") end, { silent = true })
-vim.keymap.set("n", "]c", function() ts_move.goto_next_start("@class.outer") end, { silent = true })
-vim.keymap.set("n", "[f", function() ts_move.goto_previous_start("@function.outer") end, { silent = true })
-vim.keymap.set("n", "[c", function() ts_move.goto_previous_start("@class.outer") end, { silent = true })
+vim.keymap.set("n", "]f", function()
+	ts_move.goto_next_start("@function.outer")
+end, { silent = true })
+vim.keymap.set("n", "]c", function()
+	ts_move.goto_next_start("@class.outer")
+end, { silent = true })
+vim.keymap.set("n", "[f", function()
+	ts_move.goto_previous_start("@function.outer")
+end, { silent = true })
+vim.keymap.set("n", "[c", function()
+	ts_move.goto_previous_start("@class.outer")
+end, { silent = true })
 
 -- neo-tree
 require("neo-tree").setup({
@@ -276,13 +334,12 @@ require("blink.cmp").setup({
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		javascript = { "prettier" },
-		typescript = { "prettier" },
-		json = { "prettier" },
-		yaml = { "prettier" },
-		markdown = { "prettier" },
+		javascript = { "prettierd" },
+		typescript = { "prettierd" },
+		json = { "prettierd" },
+		yaml = { "prettierd" },
+		markdown = { "prettierd" },
 		python = { "black" },
-		sh = { "shfmt" },
 	},
 	format_on_save = {
 		timeout_ms = 500,

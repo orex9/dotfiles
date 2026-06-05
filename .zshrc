@@ -109,7 +109,7 @@ alias kctx='kubectx'
 alias kns='kubens'
 alias yolo='claude --dangerously-skip-permissions'
 export GOPATH=/Users/$USER/go
-export PATH=$GOPATH/bin:$HOME/.local/bin:$HOME/.local/share/bob/nvim-bin:$PATH
+export PATH=$GOPATH/bin:$HOME/.local/bin:$HOME/.local/share/bob/nvim-bin:$(brew --prefix)/opt/python@3.13/libexec/bin:$PATH
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init zsh)"
 
