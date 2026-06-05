@@ -166,57 +166,73 @@ require("todo-comments").setup()
 require("fidget").setup({ notification = { override_vim_notify = true } })
 require("nvim-ts-autotag").setup()
 
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"go",
-		"javascript",
-		"json",
-		"lua",
-		"python",
-		"typescript",
-		"bash",
-		"html",
-		"css",
-		"yaml",
-		"markdown",
-	},
-	highlight = { enable = true },
-	indent = { enable = true },
-	auto_install = true,
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "<CR>",
-			node_incremental = "<CR>",
-			node_decremental = "<BS>",
-			scope_incremental = false,
-		},
-	},
-	textobjects = {
-		select = {
-			enable = true,
-			lookahead = true,
-			keymaps = {
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
-				["ic"] = "@class.inner",
-			},
-		},
-		move = {
-			enable = true,
-			set_jumps = true,
-			goto_next_start = {
-				["]f"] = "@function.outer",
-				["]c"] = "@class.outer",
-			},
-			goto_previous_start = {
-				["[f"] = "@function.outer",
-				["[c"] = "@class.outer",
-			},
-		},
-	},
+require("nvim-treesitter").install({
+	"go", "javascript", "json", "lua", "python",
+	"typescript", "bash", "html", "css", "yaml", "markdown",
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		"go", "javascript", "json", "lua", "python",
+		"typescript", "bash", "html", "css", "yaml", "markdown",
+	},
+	callback = function()
+		vim.treesitter.start()
+		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	end,
+})
+
+local ts_selection_stack = {}
+
+local function select_node(node)
+	local sr, sc, er, ec = node:range()
+	vim.fn.setpos("'<", { 0, sr + 1, sc + 1, 0 })
+	vim.fn.setpos("'>", { 0, er + 1, ec, 0 })
+	vim.cmd("normal! gv")
+end
+
+vim.keymap.set("n", "<CR>", function()
+	local node = vim.treesitter.get_node()
+	if not node then return end
+	ts_selection_stack = { node }
+	select_node(node)
+end, { silent = true })
+
+vim.keymap.set("v", "<CR>", function()
+	local node = ts_selection_stack[#ts_selection_stack]
+	if not node then return end
+	local parent = node:parent()
+	if not parent then return end
+	table.insert(ts_selection_stack, parent)
+	select_node(parent)
+end, { silent = true })
+
+vim.keymap.set("v", "<BS>", function()
+	if #ts_selection_stack < 2 then return end
+	table.remove(ts_selection_stack)
+	select_node(ts_selection_stack[#ts_selection_stack])
+end, { silent = true })
+
+require("nvim-treesitter-textobjects").setup({
+	select = { lookahead = true },
+	move = { set_jumps = true },
+})
+
+local ts_select = require("nvim-treesitter-textobjects.select")
+local ts_move = require("nvim-treesitter-textobjects.move")
+for _, map in ipairs({
+	{ { "x", "o" }, "af", function() ts_select.select_textobject("@function.outer") end },
+	{ { "x", "o" }, "if", function() ts_select.select_textobject("@function.inner") end },
+	{ { "x", "o" }, "ac", function() ts_select.select_textobject("@class.outer") end },
+	{ { "x", "o" }, "ic", function() ts_select.select_textobject("@class.inner") end },
+}) do
+	vim.keymap.set(map[1], map[2], map[3], { silent = true })
+end
+
+vim.keymap.set("n", "]f", function() ts_move.goto_next_start("@function.outer") end, { silent = true })
+vim.keymap.set("n", "]c", function() ts_move.goto_next_start("@class.outer") end, { silent = true })
+vim.keymap.set("n", "[f", function() ts_move.goto_previous_start("@function.outer") end, { silent = true })
+vim.keymap.set("n", "[c", function() ts_move.goto_previous_start("@class.outer") end, { silent = true })
 
 -- neo-tree
 require("neo-tree").setup({
@@ -344,7 +360,12 @@ vim.cmd("hi statusline guibg=NONE")
 -- Autocmds
 -- golang organize imports + lsp format on save
 local function go_organize_imports()
-	local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
+	local clients = vim.lsp.get_clients({ bufnr = 0, name = "gopls" })
+	if #clients == 0 then
+		return
+	end
+	local encoding = clients[1].offset_encoding or "utf-16"
+	local params = vim.lsp.util.make_range_params(nil, encoding)
 	params.context = { only = { "source.organizeImports" }, diagnostics = {} }
 	local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
 	if not result then
@@ -354,7 +375,7 @@ local function go_organize_imports()
 		if res.result then
 			for _, action in pairs(res.result) do
 				if action.edit then
-					vim.lsp.util.apply_workspace_edit(action.edit, vim.lsp.util._get_offset_encoding())
+					vim.lsp.util.apply_workspace_edit(action.edit, encoding)
 				elseif action.command then
 					vim.lsp.buf.execute_command(action)
 				end
