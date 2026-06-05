@@ -84,3 +84,4 @@ palette = 15=#ffffff
 font-family = Monaspace Neon Regular
 font-size = 14
 macos-titlebar-style = native
+cursor-click-to-move = false
