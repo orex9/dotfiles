@@ -118,21 +118,39 @@ else
     success "zsh-syntax-highlighting already installed"
 fi
 
+# --- omp ---
+if ! command -v omp &>/dev/null; then
+    info "Installing omp..."
+    curl -fsSL https://omp.sh/install | sh
+else
+    success "omp already installed"
+fi
+
+# --- herdr ---
+if ! command -v herdr &>/dev/null; then
+    info "Installing herdr..."
+    curl -fsSL https://herdr.dev/install.sh | sh
+else
+    success "herdr already installed"
+fi
+
 # --- Symlinks ---
 info "Setting up dotfile symlinks..."
 
 link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 link_file "$DOTFILES_DIR/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
 link_file "$DOTFILES_DIR/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+link_file "$DOTFILES_DIR/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
 # --- Neovim (bob) ---
 if command -v bob &>/dev/null; then
-    if ! command -v nvim &>/dev/null || ! nvim --version | head -1 | grep -q "nightly"; then
+    BOB_DATA_DIR="$HOME/Library/Application Support/bob"
+    if [[ "$(cat "$BOB_DATA_DIR/used" 2>/dev/null)" == "nightly" && -d "$BOB_DATA_DIR/nightly" ]]; then
+        success "Neovim nightly already installed"
+    else
         info "Installing Neovim nightly via bob..."
         bob install nightly
         bob use nightly
-    else
-        success "Neovim nightly already installed"
     fi
 else
     warn "bob not found. Skipping Neovim installation."
@@ -140,7 +158,10 @@ fi
 
 # --- GohuFont for Ghostty ---
 FONT_NAME="GohuFont uni14 Nerd Font Mono"
-if ! fc-list | grep -qi "$FONT_NAME" 2>/dev/null || ! ls ~/Library/Fonts/ | grep -qi "Gohu" 2>/dev/null; then
+# Ask Ghostty directly; fall back to the font file for pre-Ghostty installs.
+if { command -v ghostty &>/dev/null && ghostty +list-fonts 2>/dev/null | grep -qi "$FONT_NAME"; } || ls ~/Library/Fonts/ 2>/dev/null | grep -qi "GohuFontuni14NerdFontMono"; then
+    success "GohuFont already installed"
+else
     info "Installing GohuFont..."
     TMP_DIR="$(mktemp -d)"
     curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Gohu.zip" -o "$TMP_DIR/Gohu.zip"
@@ -148,8 +169,6 @@ if ! fc-list | grep -qi "$FONT_NAME" 2>/dev/null || ! ls ~/Library/Fonts/ | grep
     cp "$TMP_DIR"/GohuFont/*.ttf ~/Library/Fonts/ 2>/dev/null || true
     rm -rf "$TMP_DIR"
     success "GohuFont installed"
-else
-    success "GohuFont already installed"
 fi
 
 # --- Post-install reminders ---

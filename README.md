@@ -12,6 +12,7 @@ The `install.sh` script will:
 - Install Homebrew (if missing)
 - Run `brew bundle`
 - Install Oh My Zsh and zsh plugins
+- Install omp and herdr
 - Install Neovim nightly via `bob`
 - Symlink all dotfiles (with backups of any existing files)
 - Install GohuFont
@@ -43,6 +44,20 @@ bob use nightly
 ```
 
 > Make sure `~/.local/share/bob/nvim-bin` is in your `$PATH`.
+
+### omp
+
+```sh
+curl -fsSL https://omp.sh/install | sh
+```
+
+### herdr
+
+```sh
+curl -fsSL https://herdr.dev/install.sh | sh
+```
+
+The herdr config is symlinked: `~/.config/herdr/config.toml` -> `config/herdr/config.toml`, so config edits show up in this repo.
 
 ### oh-my-zsh
 ```sh
