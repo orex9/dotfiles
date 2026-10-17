@@ -145,6 +145,8 @@ vim.pack.add({
 	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/folke/trouble.nvim" },
+	{ src = "https://github.com/anurag3301/nvim-platformio.lua" },
+	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 })
 
 -- plugins setup and configurations
@@ -158,14 +160,24 @@ require("mini.icons").setup()
 require("mini.icons").mock_nvim_web_devicons()
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "lua_ls", "gopls", "vtsls", "jsonls", "html", "cssls", "bashls", "pyright", "yamlls" },
+	ensure_installed = {
+		"lua_ls",
+		"gopls",
+		"vtsls",
+		"jsonls",
+		"html",
+		"cssls",
+		"bashls",
+		"pyright",
+		"yamlls",
+		"clangd",
+	},
 	automatic_installation = true,
 })
 require("fzf-lua").setup()
 require("todo-comments").setup()
 require("fidget").setup({ notification = { override_vim_notify = true } })
 require("nvim-ts-autotag").setup()
-
 require("nvim-treesitter").install({
 	"go",
 	"javascript",
@@ -178,8 +190,10 @@ require("nvim-treesitter").install({
 	"css",
 	"yaml",
 	"markdown",
+	"cpp",
+	"c",
 })
-
+require("toggleterm").setup()
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"go",
@@ -193,10 +207,13 @@ vim.api.nvim_create_autocmd("FileType", {
 		"css",
 		"yaml",
 		"markdown",
+		"cpp",
 	},
 	callback = function()
-		vim.treesitter.start()
-		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		local ok = pcall(vim.treesitter.start)
+		if ok then
+			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+		end
 	end,
 })
 
@@ -326,7 +343,7 @@ require("blink.cmp").setup({
 	completion = {
 		keyword = { range = "full" },
 		documentation = { auto_show = true, auto_show_delay_ms = 500 },
-		ghost_text = { enabled = true },
+		ghost_text = { enabled = false },
 	},
 })
 
@@ -409,7 +426,7 @@ vim.lsp.config("gopls", {
 vim.lsp.config("*", {
 	capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
-vim.lsp.enable({ "lua_ls", "gopls", "vtsls", "jsonls", "html", "cssls", "bashls", "pyright", "yamlls" })
+vim.lsp.enable({ "lua_ls", "gopls", "vtsls", "jsonls", "html", "cssls", "bashls", "pyright", "yamlls", "clangd" })
 
 vim.cmd("colorscheme cyberdream")
 vim.cmd("hi statusline guibg=NONE")
@@ -496,4 +513,12 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.linebreak = true
 		vim.opt_local.showbreak = "↪ "
 	end,
+})
+
+-- platformio
+require("platformio").setup({
+	lsp = "clangd",
+	clangd_source = "compiledb",
+	picker_backend = "ui_select",
+	menu_key = "<leader>\\",
 })
