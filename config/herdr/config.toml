@@ -1,0 +1,17 @@
+onboarding = false
+
+[keys]
+prefix="ctrl+k"
+
+[theme]
+name = "kanagawa"
+auto_switch = false
+
+[ui.sound]
+enabled = false
+
+[ui]
+show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+delivery = "off"
