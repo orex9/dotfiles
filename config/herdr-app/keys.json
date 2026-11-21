@@ -74,7 +74,8 @@
     "ctrl-k 6": "tab.select:6",
     "ctrl-k 7": "tab.select:7",
     "ctrl-k 8": "tab.select:8",
-    "ctrl-k 9": "tab.select:9"
+    "ctrl-k 9": "tab.select:9",
+    "ctrl-k g": "mod.open:pixel-picker"
   },
   "terminal": {
     "cmd-c": "terminal.copy",

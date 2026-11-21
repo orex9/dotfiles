@@ -522,3 +522,21 @@ require("platformio").setup({
 	picker_backend = "ui_select",
 	menu_key = "<leader>\\",
 })
+
+		["herdr-tabs"] = {
+			-- entries are "name\tid"; switch the Herdr tab (unsettle first so a
+			-- folded tab comes back)
+			keybinding = "<leader>th",
+			handlers = {
+				["<CR>"] = function(entries)
+					if #entries == 0 then
+						return
+					end
+					local id = vim.fn.split(entries[1], "\t")[2]
+					if id then
+						vim.fn.system({ "herdr-app", "do", "tab.unsettle", "--id", id })
+						vim.fn.system({ "herdr-app", "do", "tab.select", "--id", id })
+					end
+				end,
+			},
+		},

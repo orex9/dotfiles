@@ -1,0 +1,22 @@
+[metadata]
+name = "herdr-tabs"
+description = "Switch to a tab in the current Herdr space — Enter jumps to it; preview shows its terminals"
+
+[source]
+command = '''herdr-app ls | jq -r '.spaces[] | select(.active) | .tabs[] | [(.name + (if .settled then " (settled)" else "" end)), .id] | @tsv' '''
+display = "{split:\t:0}"
+
+[preview]
+command = '''herdr-app ls | jq -r '.spaces[] | select(.active) | .tabs[] | select(.id == "{split:\t:1}") | .terminals[] | "\(.terminal)  \(.app)  \(.status)"' '''
+
+[ui]
+layout = "portrait"
+preview_panel = { size = 40 }
+
+[keybindings]
+enter = "actions:select"
+
+[actions.select]
+description = "Switch to this tab"
+command = "herdr-app do tab.select --id {split:\t:1}"
+mode = "execute"
