@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" font-family="monospace">
+  <rect width="480" height="300" fill="#031222"/>
+  <!-- sidebar tile -->
+  <rect x="10" y="10" width="120" height="280" fill="#031222" stroke="#2a6b78" stroke-width="2"/>
+  <rect x="14" y="14" width="10" height="10" fill="#faa968"/>
+  <text x="30" y="23" fill="#f6dcac" font-size="9">Herdr</text>
+  <rect x="14" y="32" width="112" height="1" fill="#2a6b78"/>
+  <rect x="16" y="42" width="10" height="10" fill="#faa968"/>
+  <text x="32" y="51" fill="#f6dcac" font-size="8">~/dev</text>
+  <rect x="120" y="42" width="6" height="6" fill="#e97b3c"/>
+  <rect x="16" y="60" width="10" height="10" fill="none" stroke="#5a7d8c" stroke-width="1.5"/>
+  <text x="32" y="69" fill="#b5c2b2" font-size="8">api</text>
+  <rect x="16" y="78" width="10" height="10" fill="none" stroke="#5a7d8c" stroke-width="1.5"/>
+  <text x="32" y="87" fill="#b5c2b2" font-size="8">blog</text>
+  <rect x="14" y="102" width="112" height="1" fill="#2a6b78"/>
+  <text x="16" y="116" fill="#5a7d8c" font-size="7">WORKING 1</text>
+  <rect x="16" y="124" width="7" height="7" fill="#e97b3c"/>
+  <text x="30" y="131" fill="#f6dcac" font-size="8">fix login</text>
+  <text x="16" y="148" fill="#5a7d8c" font-size="7">NEEDS YOU 1</text>
+  <rect x="16" y="156" width="7" height="7" fill="#f85525"/>
+  <text x="30" y="163" fill="#f6dcac" font-size="8">review pr</text>
+  <text x="16" y="180" fill="#5a7d8c" font-size="7">IDLE 1</text>
+  <rect x="16" y="188" width="7" height="7" fill="none" stroke="#3f8f8a" stroke-width="1.5"/>
+  <text x="30" y="195" fill="#b5c2b2" font-size="8">shell</text>
+  <rect x="14" y="252" width="112" height="1" fill="#2a6b78"/>
+  <text x="16" y="266" fill="#b5c2b2" font-size="7">Settings</text>
+  <text x="16" y="278" fill="#b5c2b2" font-size="7">Add machine</text>
+  <!-- tab strip -->
+  <rect x="138" y="10" width="86" height="20" fill="#0d2b44" stroke="#2a6b78" stroke-width="1"/>
+  <text x="144" y="23" fill="#f6dcac" font-size="8">fix login</text>
+  <rect x="204" y="15" width="6" height="6" fill="#faa968"/>
+  <rect x="228" y="10" width="70" height="20" fill="#031222" stroke="#1a3a4a" stroke-width="1"/>
+  <text x="234" y="23" fill="#b5c2b2" font-size="8">shell</text>
+  <rect x="302" y="10" width="20" height="20" fill="#031222" stroke="#1a3a4a" stroke-width="1"/>
+  <text x="308" y="23" fill="#b5c2b2" font-size="10">+</text>
+  <rect x="330" y="10" width="36" height="20" fill="#031222" stroke="#1a3a4a" stroke-width="1"/>
+  <text x="336" y="23" fill="#b5c2b2" font-size="7">Files</text>
+  <rect x="370" y="10" width="54" height="20" fill="#031222" stroke="#1a3a4a" stroke-width="1"/>
+  <text x="376" y="23" fill="#b5c2b2" font-size="7">Changes</text>
+  <!-- focused pane card -->
+  <rect x="138" y="38" width="286" height="200" fill="#05182e" stroke="#faa968" stroke-width="2"/>
+  <rect x="138" y="38" width="286" height="18" fill="#081e33"/>
+  <rect x="138" y="55" width="286" height="1" fill="#2a6b78"/>
+  <text x="146" y="51" fill="#b5c2b2" font-size="7">fix login ~/dev</text>
+  <text x="146" y="74" fill="#f6dcac" font-size="9">$ cargo test</text>
+  <text x="146" y="88" fill="#8cbfb8" font-size="8">running 12 tests</text>
+  <text x="146" y="102" fill="#7ec8a9" font-size="8">test ok ... 12 passed</text>
+  <text x="146" y="124" fill="#f6dcac" font-size="9">$ </text>
+  <rect x="152" y="117" width="6" height="10" fill="#faa968"/>
+  <!-- status strip -->
+  <rect x="138" y="246" width="286" height="18" fill="#031222"/>
+  <rect x="138" y="246" width="286" height="1" fill="#2a6b78"/>
+  <text x="146" y="258" fill="#b5c2b2" font-size="7">This computer 3 agents</text>
+  <text x="372" y="258" fill="#5a7d8c" font-size="7">ctrl-k p</text>
+  <!-- settled fold hint on tab strip -->
+  <rect x="424" y="10" width="34" height="20" fill="#031222" stroke="#1a3a4a" stroke-width="1"/>
+  <rect x="429" y="16" width="8" height="8" fill="none" stroke="#5a7d8c" stroke-width="1.5"/>
+  <text x="441" y="24" fill="#b5c2b2" font-size="8">2</text>
+</svg>
