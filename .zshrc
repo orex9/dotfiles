@@ -110,7 +110,6 @@ alias kns='kubens'
 alias yolo='claude --dangerously-skip-permissions'
 export GOPATH=/Users/$USER/go
 export PATH=$GOPATH/bin:$HOME/.local/bin:$HOME/.local/share/bob/nvim-bin:$(brew --prefix)/opt/python@3.13/libexec/bin:$HOME/.platformio/penv/bin:$PATH
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
@@ -119,3 +118,4 @@ export NVM_DIR="$HOME/.nvm"
 
 . "$HOME/.local/bin/env"
 export DISABLE_UNTRACKED_FILES_DIRTY="true"
+eval "$(tv init zsh)"

@@ -50,9 +50,8 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<leader>h", ":lua FzfLua.helptags()<CR>")
-vim.keymap.set("n", "<leader>sf", ':lua FzfLua.files({ cwd = vim.fn.expand("%:h") })<CR>')
+vim.keymap.set("n", "<leader>sf", ":Tv files<CR>", { desc = "Search files (tv)" })
 vim.keymap.set("n", "<leader><leader>", ":lua FzfLua.buffers()<CR>")
-vim.keymap.set("n", "<leader>sg", ":lua FzfLua.live_grep()<CR>")
 vim.keymap.set("n", "<leader>/", ":lua FzfLua.lgrep_curbuf()<CR>")
 vim.keymap.set("n", "<leader>ft", ":Neotree toggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>bd", function()
@@ -146,7 +145,8 @@ vim.pack.add({
 	{ src = "https://github.com/folke/which-key.nvim" },
 	{ src = "https://github.com/folke/trouble.nvim" },
 	{ src = "https://github.com/anurag3301/nvim-platformio.lua" },
-	{ src = "https://github.com/akinsho/toggleterm.nvim" },
+	{ src = "https://github.com/alexpasmantier/tv.nvim" },
+ 	{ src = "https://github.com/akinsho/toggleterm.nvim" },
 })
 
 -- plugins setup and configurations
@@ -401,6 +401,7 @@ wk.add({
 	{ "<leader>x", group = "diagnostics / todo" },
 	{ "<leader>l", group = "lsp" },
 	{ "<leader>t", group = "toggle" },
+	{ "<leader>g", group = "git" },
 })
 
 -- trouble
@@ -523,6 +524,41 @@ require("platformio").setup({
 	menu_key = "<leader>\\",
 })
 
+-- tv.nvim (advanced setup)
+local tvh = require("tv").handlers
+require("tv").setup({
+	layout = "landscape",
+	window = {
+		width = 0.8,
+		height = 0.8,
+		border = "rounded",
+		title = " tv.nvim ",
+		title_pos = "center",
+	},
+	channels = {
+		files = {
+			layout = "portrait",
+			args = { "--no-status-bar", "--preview-size", "70" },
+			keybinding = "<C-p>",
+			handlers = {
+				["<CR>"] = tvh.open_as_files,
+				["<C-q>"] = tvh.send_to_quickfix,
+				["<C-s>"] = tvh.open_in_split,
+				["<C-v>"] = tvh.open_in_vsplit,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		text = {
+			-- replaces fzf-lua live_grep
+			keybinding = "<leader>sg",
+			handlers = {
+				["<CR>"] = tvh.open_at_line,
+				["<C-q>"] = tvh.send_to_quickfix,
+				["<C-s>"] = tvh.open_in_split,
+				["<C-v>"] = tvh.open_in_vsplit,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
 		["herdr-tabs"] = {
 			-- entries are "name\tid"; switch the Herdr tab (unsettle first so a
 			-- folded tab comes back)
@@ -540,3 +576,186 @@ require("platformio").setup({
 				end,
 			},
 		},
+		["git-log"] = {
+			keybinding = "<leader>gl",
+			handlers = {
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						vim.cmd("enew | setlocal buftype=nofile bufhidden=wipe")
+						vim.cmd("silent 0read !git show " .. vim.fn.shellescape(entries[1]))
+						vim.cmd("1delete _ | setlocal filetype=git nomodifiable")
+						vim.cmd("normal! gg")
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["git-branch"] = {
+			keybinding = "<leader>gb",
+			handlers = {
+				["<CR>"] = tvh.execute_shell_command("git checkout {}"),
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["docker-images"] = {
+			keybinding = "<leader>di",
+			window = { title = " Docker Images " },
+			handlers = {
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						vim.ui.input({
+							prompt = "Container name: ",
+							default = "my-container",
+						}, function(name)
+							if name and name ~= "" then
+								local cmd = string.format("docker run -it --name %s %s", name, entries[1])
+								vim.cmd("!" .. cmd)
+							end
+						end)
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		env = {
+			keybinding = "<leader>ev",
+			handlers = {
+				["<CR>"] = tvh.insert_at_cursor,
+				["<C-l>"] = tvh.insert_on_new_line,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		alias = {
+			keybinding = "<leader>al",
+			handlers = {
+				["<CR>"] = tvh.insert_at_cursor,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["git-files"] = {
+			keybinding = "<leader>gf",
+			handlers = {
+				["<CR>"] = tvh.open_as_files,
+				["<C-q>"] = tvh.send_to_quickfix,
+				["<C-v>"] = tvh.open_in_vsplit,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["git-diff"] = {
+			keybinding = "<leader>gd",
+			handlers = {
+				["<CR>"] = tvh.open_as_files,
+				["<C-a>"] = tvh.execute_shell_command("git add {}"),
+				["<C-r>"] = tvh.execute_shell_command("git restore {}"),
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["gh-issues"] = {
+			keybinding = "<leader>gi",
+			handlers = {
+				-- entries are issue numbers ("123")
+				["<CR>"] = tvh.execute_shell_command("gh issue view {} --web"),
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["gh-prs"] = {
+			keybinding = "<leader>gp",
+			handlers = {
+				-- entries are PR numbers ("123")
+				["<CR>"] = tvh.execute_shell_command("gh pr view {} --web"),
+				["<C-c>"] = tvh.execute_shell_command("gh pr checkout {}"),
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["todo-comments"] = {
+			keybinding = "<leader>xv",
+			-- entries are "file:line", same as the text channel
+			handlers = {
+				["<CR>"] = tvh.open_at_line,
+				["<C-q>"] = tvh.send_to_quickfix,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["man-pages"] = {
+			keybinding = "<leader>mp",
+			handlers = {
+				-- entries are "name (section) - description"; open in :Man
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						local name = vim.fn.split(entries[1])[1]
+						vim.cmd("Man " .. name)
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		unicode = {
+			keybinding = "<leader>uc",
+			handlers = {
+				-- entries are the characters themselves
+				["<CR>"] = tvh.insert_at_cursor,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["make-targets"] = {
+			keybinding = "<leader>mt",
+			handlers = {
+				-- run target via :make so output lands in quickfix
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						vim.cmd("make " .. entries[1])
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["zsh-history"] = {
+			keybinding = "<leader>zh",
+			handlers = {
+				["<CR>"] = tvh.insert_at_cursor,
+				["<C-l>"] = tvh.insert_on_new_line,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		zoxide = {
+			keybinding = "<leader>zj",
+			handlers = {
+				-- entries are absolute directories; change nvim's cwd
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						vim.cmd("cd " .. vim.fn.fnameescape(entries[1]))
+						vim.notify("cwd: " .. entries[1], vim.log.levels.INFO, { title = "tv.nvim" })
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+		["pio-projects"] = {
+			keybinding = "<leader>pa",
+			-- entries are project directories (contain platformio.ini)
+			handlers = {
+				-- cd there; the nvim-platformio menu (<leader>\) then works on the new cwd
+				["<CR>"] = function(entries, config)
+					if #entries > 0 then
+						vim.cmd("cd " .. vim.fn.fnameescape(entries[1]))
+						vim.notify("cwd: " .. entries[1], vim.log.levels.INFO, { title = "tv.nvim" })
+					end
+				end,
+				["<C-b>"] = tvh.execute_shell_command("cd {} && pio run"),
+				["<C-v>"] = function(entries, config)
+					if #entries > 0 then
+						vim.cmd("vsplit " .. vim.fn.fnameescape(entries[1] .. "/platformio.ini"))
+					end
+				end,
+				["<C-y>"] = tvh.copy_to_clipboard,
+			},
+		},
+	},
+	tv_binary = "tv",
+	global_keybindings = {
+		channels = "<leader>tv",
+	},
+	quickfix = {
+		auto_open = true,
+	},
+})

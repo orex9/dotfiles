@@ -23,6 +23,7 @@ brew "noir"
 brew "python@3.13"
 brew "ripgrep"
 brew "ruff"
+brew "television"
 brew "zoxide"
 
 cask "font-monaspace"
