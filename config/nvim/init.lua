@@ -7,7 +7,7 @@ vim.o.shiftwidth = 2
 vim.o.swapfile = false
 vim.g.mapleader = " "
 vim.g.have_nerd_font = true
-vim.o.winborder = "rounded"
+vim.o.winborder = "none"
 vim.o.undofile = true
 vim.o.incsearch = true
 vim.o.termguicolors = true
@@ -428,7 +428,7 @@ vim.lsp.config("*", {
 })
 vim.lsp.enable({ "lua_ls", "gopls", "vtsls", "jsonls", "html", "cssls", "bashls", "pyright", "yamlls", "clangd" })
 
-vim.cmd("colorscheme cyberdream")
+vim.cmd("colorscheme pixel")
 vim.cmd("hi statusline guibg=NONE")
 
 -- Autocmds
