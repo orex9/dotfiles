@@ -1,0 +1,6 @@
+{
+  "place": "none",
+  "title": "Help",
+  "overlay": { "kind": "dialog", "width": 760, "height": 540, "frame": "none" },
+  "cloned_from": { "name": "help", "version": "0.1.16" }
+}

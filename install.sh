@@ -139,8 +139,26 @@ info "Setting up dotfile symlinks..."
 
 link_file "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 link_file "$DOTFILES_DIR/config/nvim/init.lua" "$HOME/.config/nvim/init.lua"
+link_file "$DOTFILES_DIR/config/nvim/colors" "$HOME/.config/nvim/colors"
+link_file "$DOTFILES_DIR/config/television/config.toml" "$HOME/.config/television/config.toml"
+# cable/ holds the channel TOMLs (incl. custom pio-projects and patched unicode)
+link_file "$DOTFILES_DIR/config/television/cable" "$HOME/.config/television/cable"
 link_file "$DOTFILES_DIR/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 link_file "$DOTFILES_DIR/config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
+
+# --- Herdr app (the desktop app's own config: pixel layout, mods, keys) ---
+# The app writes settings/keys/layouts in place; symlinks are followed, so the
+# repo copy stays live. ~/.config/herdr-app is created by Herdr's first run;
+# link_file makes parent dirs as needed. gpui-kit.d.ts / jsconfig.json inside
+# mods are generated per machine and ignored by git.
+link_file "$DOTFILES_DIR/config/herdr-app/settings.json" "$HOME/.config/herdr-app/settings.json"
+link_file "$DOTFILES_DIR/config/herdr-app/keys.json" "$HOME/.config/herdr-app/keys.json"
+link_file "$DOTFILES_DIR/config/herdr-app/themes/pixel.json" "$HOME/.config/herdr-app/themes/pixel.json"
+link_file "$DOTFILES_DIR/config/herdr-app/layouts/pixel.json" "$HOME/.config/herdr-app/layouts/pixel.json"
+link_file "$DOTFILES_DIR/config/herdr-app/layouts/pixel.svg" "$HOME/.config/herdr-app/layouts/pixel.svg"
+for mod in "$DOTFILES_DIR"/config/herdr-app/mods/*; do
+    link_file "$mod" "$HOME/.config/herdr-app/mods/$(basename "$mod")"
+done
 
 # --- Neovim (bob) ---
 if command -v bob &>/dev/null; then

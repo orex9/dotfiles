@@ -1,0 +1,5 @@
+{
+  "place": "none",
+  "overlay": { "frame": "none" },
+  "cloned_from": { "name": "menu", "version": "0.1.16" }
+}

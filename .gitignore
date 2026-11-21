@@ -1,1 +1,5 @@
 .DS_STORE
+# Generated per machine inside herdr-app mod folders
+config/herdr-app/mods/*/gpui-kit.d.ts
+config/herdr-app/mods/*/jsconfig.json
+config/herdr-app/mods/*/herdr.d.ts

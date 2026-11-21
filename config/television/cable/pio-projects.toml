@@ -1,0 +1,36 @@
+[metadata]
+name = "pio-projects"
+description = "PlatformIO projects under ~/projects — preview platformio.ini; f2 build, f3 upload, f4 monitor, f5 edit"
+
+[source]
+# frecency ranking stays on: frequently opened projects float to the top
+command = "find \"$HOME/projects\" -name platformio.ini -not -path '*/.pio/*' -not -path '*/.git/*' -exec dirname {} +"
+[preview]
+command = "bat -n --color=always '{}/platformio.ini'"
+env = { BAT_THEME = "ansi" }
+
+[keybindings]
+f2 = "actions:build"
+f3 = "actions:upload"
+f4 = "actions:monitor"
+f5 = "actions:edit"
+
+[actions.build]
+description = "Build the selected project (pio run)"
+command = "cd {} && pio run"
+mode = "fork"
+
+[actions.upload]
+description = "Build and flash the selected project (pio run -t upload)"
+command = "cd {} && pio run -t upload"
+mode = "fork"
+
+[actions.monitor]
+description = "Open serial monitor in this project (pio device monitor)"
+command = "cd {} && pio device monitor"
+mode = "execute"
+
+[actions.edit]
+description = "Open the selected project in $EDITOR"
+command = "cd {} && ${EDITOR:-nvim} ."
+mode = "execute"

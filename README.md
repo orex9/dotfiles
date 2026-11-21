@@ -3,7 +3,7 @@
 ## Quick install on a new Mac
 
 ```sh
-git clone https://github.com/oreliyahu/dotfiles.git ~/.dotfiles
+git clone https://github.com/orex9/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh
 ```
